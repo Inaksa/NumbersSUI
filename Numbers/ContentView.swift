@@ -8,17 +8,85 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var processor: Processor
+
+    @State private var presentMenu: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack {
+                BoardView(processor: _processor)
+                    .padding(.bottom)
+                Button {
+                    processor.perform(.navigateToSettings)
+                } label: {
+                    Text("Toggle Menu")
+                }
+                .buttonStyle(MenuButton())
+            }
         }
+        .fullScreenCover(
+            isPresented: Binding(get: {
+                coordinator.currentRoute.last == .menu
+            }, set: { newValue in
+                coordinator.dismiss()
+            }),
+            content: {
+                MainMenu()
+                    .presentationBackground {
+                        Color.black
+                            .opacity(0.5)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                coordinator.dismiss()
+                            }
+                    }
+            }
+        )
+        .fullScreenCover(
+            isPresented: Binding(get: {
+                coordinator.currentRoute.last == .settings
+            }, set: { newValue in
+                coordinator.dismiss()
+            }),
+            content: {
+                SettingsView()
+                    .presentationBackground {
+                        Color.black
+                            .opacity(0.5)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                coordinator.dismiss()
+                            }
+                    }
+            }
+        )
+        .fullScreenCover(isPresented: Binding(get: {
+            switch coordinator.currentRoute.last {
+            case .gameOver:
+                return true
+            default:
+                return false
+            }
+        }, set: { newValue in
+            coordinator.dismiss()
+        }), content: {
+            switch coordinator.currentRoute.last {
+            case .gameOver(let gamestatus):
+                GameOverView(gameStatus: gamestatus)
+            default:
+                EmptyView()
+            }
+        })
         .padding()
     }
 }
 
 #Preview {
+    let coordinator = AppCoordinator()
+    let processor = Processor(coordinator: coordinator)
+
     ContentView()
+        .environmentObject(processor.coordinator)
+        .environmentObject(processor)
 }
