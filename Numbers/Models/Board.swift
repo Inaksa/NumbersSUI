@@ -38,6 +38,11 @@ public struct Board {
 
     func isSolved() -> Bool {
         var retValue: Bool = true
+
+        if let lastTile = cells.last, lastTile != .empty {
+            return false
+        }
+        
         var prevItem: Tile = .empty
         cells
             .forEach { item in
