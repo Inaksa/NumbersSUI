@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TileView: View {
+    @EnvironmentObject var processor: Processor
+
     let tile: Tile
     var body: some View {
         ZStack {
@@ -20,7 +22,11 @@ struct TileView: View {
             }
         }
         .padding()
-        .frame(maxWidth: 60, maxHeight: 60)
+        .frame(
+            maxWidth: (UIApplication.shared.keyWindow?.screen.bounds.width ?? 300) * 0.8 / CGFloat(processor.difficulty.gameSize.columns),
+            maxHeight: (UIApplication.shared.keyWindow?.screen.bounds.width ?? 300) * 0.8 / CGFloat(processor.difficulty.gameSize.rows)
+        )
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .aspectRatio(1.0, contentMode: .fill)
         .background(tile != .empty ? .white : .clear)
         .overlay(alignment: .bottom, content: {
