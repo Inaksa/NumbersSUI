@@ -64,6 +64,12 @@ class Processor: ObservableObject {
     private var musicVolume: Double = Configuration.initialMusicVolume
     private var soundVolume: Double = Configuration.initialSoundVolume
 
+    private var startTime: Date?
+    private var timer: Timer!
+    private var isPaused: Bool = false
+    @Published var score: TimeInterval = 0
+
+
     @Published var board: Board = Board(
         rows: Configuration.initialDifficulty.gameSize.columns,
         columns: Configuration.initialDifficulty.gameSize.rows,
@@ -87,11 +93,21 @@ class Processor: ObservableObject {
             )
             board.shuffle()
             self.board = board
+            self.startTime = Date()
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         case .navigateToSettings:
             coordinator.currentRoute.append(.settings)
         case .tapOnTile:
             handleGameAction(action)
         }
+    }
+
+    @objc
+    private func update() {
+        guard !isPaused else { return }
+        let elapsedTime = Date().timeIntervalSince(startTime!)
+        score = elapsedTime
+        print("Currscore: \(score)")
     }
 
     private func handleSettingsAction(_ settingsAction: ProcessorAction) {
@@ -109,16 +125,19 @@ class Processor: ObservableObject {
     private func handleGameAction(_ gameAction: ProcessorAction) {
         switch gameAction {
         case .tapOnTile(let tile):
-            self.board.doMove(tile)
-            self.board = Board(
-                rows: self.board.rows,
-                columns: self.board.columns,
-                maxShuffles: difficulty.shufflesRequired,
-                cells: self.board.cells
-            )
+            withAnimation(.easeInOut(duration: 0.2)) {
+                if self.board.doMove(tile) {
+                    self.board = Board(
+                        rows: self.board.rows,
+                        columns: self.board.columns,
+                        maxShuffles: difficulty.shufflesRequired,
+                        cells: self.board.cells
+                    )
 
-            if self.board.isSolved() {
-                self.coordinator.currentRoute.append(.gameOver(.win))
+                    if self.board.isSolved() {
+                        self.coordinator.currentRoute.append(.gameOver(.win))
+                    }
+                }
             }
         default:
             break

@@ -73,7 +73,7 @@ struct ContentView: View {
         }), content: {
             switch coordinator.currentRoute.last {
             case .gameOver(let gamestatus):
-                GameOverView(gameStatus: gamestatus, score: 100)
+                GameOverView(gameStatus: gamestatus, isHighScore: false, score: 100)
                     .presentationBackground {
                         Color.black
                             .opacity(0.5)
