@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Tile: Equatable {
+enum Tile: Equatable, Hashable {
     case empty
     case symbol(Int)
 

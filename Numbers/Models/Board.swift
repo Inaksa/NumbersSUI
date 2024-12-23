@@ -82,8 +82,9 @@ public struct Board {
         isShuffling = false
     }
     
-    mutating func doMove(_ tile: Tile) {
-        guard let tilePosition = cells.firstIndex(of: tile) else { return }
+    mutating func doMove(_ tile: Tile) -> Bool {
+        var retValue: Bool = false
+        guard let tilePosition = cells.firstIndex(of: tile) else { return retValue }
         let tileRow = tilePosition / columns
         let tileColumn = tilePosition - tileRow * columns
 
@@ -101,15 +102,17 @@ public struct Board {
             position.row * columns + position.column >= cells.count
         }
 
+
         validPositionsToCheck.forEach { position in
             if let destinationTile = getTile(at: position),
                case destinationTile = .empty,
                let destinationIndex = cells.firstIndex(of: destinationTile) {
                 cells.swapAt(tilePosition, destinationIndex)
-//                cells.remove(at: tilePosition)
-//                cells.insert(.empty, at: tilePosition)
+                retValue = true
             }
         }
+
+        return retValue
     }
 
     var toString: String {

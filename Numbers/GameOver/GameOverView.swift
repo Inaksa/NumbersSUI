@@ -11,12 +11,13 @@ struct GameOverView: View {
     @EnvironmentObject var coordinator: AppCoordinator
     @EnvironmentObject var processor: Processor
 
-    let gameStatus: GameStatus
-
     @State private var showTiles = false
     @State private var showCheckmark = false
 
+    let gameStatus: GameStatus
+    let isHighScore: Bool
     let score: Int
+
     let tileNumbers = Array(1...5)
 
     var body: some View {
@@ -53,7 +54,7 @@ struct GameOverView: View {
                 .padding(.vertical, 30)
                 .padding(.horizontal)
 
-            if isHighscore {
+            if isHighScore {
                 VStack(spacing: 15) {
                     Text("This is a new high score!")
                         .font(.custom(Styles.fontName, size: 50).bold())
@@ -94,8 +95,6 @@ struct GameOverView: View {
             showCheckmark = true
         }
     }
-
-    private let isHighscore: Bool = true
 }
 
 struct NumberTile: View {
@@ -122,7 +121,26 @@ struct NumberTile: View {
     let coordinator = AppCoordinator()
     let processor = Processor(coordinator: coordinator)
 
-    GameOverView(gameStatus: .win, score: 100)
+    GameOverView(gameStatus: .win,
+                 isHighScore: false,
+                 score: 100)
         .environmentObject(processor.coordinator)
         .environmentObject(processor)
+        .presentationBackground {
+            Color.black.opacity(0.5).ignoresSafeArea()
+        }
+}
+
+#Preview {
+    let coordinator = AppCoordinator()
+    let processor = Processor(coordinator: coordinator)
+
+    GameOverView(gameStatus: .win,
+                 isHighScore: true,
+                 score: 100)
+        .environmentObject(processor.coordinator)
+        .environmentObject(processor)
+        .presentationBackground {
+            Color.black.opacity(0.5).ignoresSafeArea()
+        }
 }

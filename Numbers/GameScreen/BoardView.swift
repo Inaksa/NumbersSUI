@@ -12,6 +12,8 @@ struct BoardView: View {
     }
     @EnvironmentObject var processor: Processor
 
+    @Namespace var animationNamespace
+
     var body: some View {
         Grid(alignment: .topLeading, horizontalSpacing: 4, verticalSpacing: 4) {
             let maxRows: Int = processor.board.rows
@@ -22,14 +24,19 @@ struct BoardView: View {
                         let position = Position(row: row, column: column)
                         if let tile = processor.board.getTile(at: position) {
                             TileView(tile: tile)
+                                .environmentObject(processor)
+                                .matchedGeometryEffect(id: tile, in: animationNamespace)
+                                .transition(.asymmetric(insertion: .scale, removal: .slide))
                                 .onTapGesture {
                                     if tile != .empty {
                                         print("Did tap on tile: \(tile)")
                                         processor.perform(.tapOnTile(tile))
                                     }
                                 }
+
                         } else {
                             TileView(tile: .empty)
+                                .environmentObject(processor)
                         }
                     }
                 }
