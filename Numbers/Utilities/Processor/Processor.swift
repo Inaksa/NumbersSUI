@@ -6,6 +6,7 @@
 //
 import Foundation
 import Combine
+import SwiftUI
 
 class Processor: ObservableObject {
     enum Configuration {
@@ -40,6 +41,14 @@ class Processor: ObservableObject {
     private var isPaused: Bool = false
     @Published var score: TimeInterval = 0
 
+    func scoreRepresentation() -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute, .second, .nanosecond]
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: score) ?? ""
+    }
+
+
     @Published var board: Board = Board(
         rows: Configuration.initialDifficulty.gameSize.columns,
         columns: Configuration.initialDifficulty.gameSize.rows,
@@ -65,6 +74,7 @@ class Processor: ObservableObject {
             self.board = board
             self.startTime = Date()
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+            self.isPaused = false
         case .navigateToSettings:
             coordinator.currentRoute.append(.settings)
         case .tapOnTile:
@@ -80,8 +90,8 @@ class Processor: ObservableObject {
     private func update() {
         guard !isPaused else { return }
         let elapsedTime = Date().timeIntervalSince(startTime!)
-        score = Double(Int(elapsedTime) * 100) / Double(100)
-        print("Currscore: \(score)")
+//        score = Double(Int(elapsedTime) * 100) / Double(100)
+        score = Double(elapsedTime * Double(100)) / Double(100)
     }
 
     private func handleSettingsAction(_ settingsAction: ProcessorAction) {
@@ -118,5 +128,38 @@ class Processor: ObservableObject {
         default:
             break
         }
+    }
+}
+
+class ScoreManager {
+    private init() {}
+    static let shared = ScoreManager()
+
+    func getTopScores(for difficulty: GameDifficulty) -> [TimeInterval] {
+        var retValue: [TimeInterval] = []
+
+        for score in 0 ..< 10 {
+            if let aScore = UserDefaults.standard.object(forKey: "score_\(score)_\(difficulty)") as? TimeInterval {
+                retValue.append(aScore)
+            }
+        }
+
+        return retValue
+    }
+
+
+    func addScore(for difficulty: GameDifficulty, score: TimeInterval) {
+        var scores = getTopScores(for: difficulty)
+        scores.append(score)
+        scores = scores.sorted()
+        scores = scores.prefix(upTo: 10).map(\.self)
+
+        for score in 0 ..< 10 {
+            UserDefaults.standard.set(scores[score], forKey: "score_\(score)_\(difficulty)")
+        }
+    }
+
+    func getMinHighScore(for difficulty: GameDifficulty) -> TimeInterval {
+        getTopScores(for: difficulty).min() ?? TimeInterval.infinity
     }
 }

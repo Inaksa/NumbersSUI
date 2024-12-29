@@ -18,7 +18,7 @@ struct NumbersApp: App {
     let processor = Processor(coordinator: AppCoordinator())
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameView()
                 .environmentObject(processor.coordinator)
                 .environmentObject(processor)
         }

@@ -16,8 +16,7 @@ struct GameOverView: View {
 
     let gameStatus: GameStatus
     let isHighScore: Bool
-    let score: Int
-
+    let score: Double
     let tileNumbers = Array(1...5)
 
     var body: some View {
@@ -29,7 +28,7 @@ struct GameOverView: View {
                     .foregroundColor(.blue)
 
                 // Score
-                Text("SCORE: \(score)")
+                Text("SCORE: \(processor.scoreRepresentation())")
                     .font(.custom(Styles.fontName, size: 50))
                     .foregroundColor(.blue)
             }
@@ -51,8 +50,8 @@ struct GameOverView: View {
                         )
                 }
             }
-                .padding(.vertical, 30)
-                .padding(.horizontal)
+            .padding(.vertical, 30)
+            .padding(.horizontal)
 
             if isHighScore {
                 VStack(spacing: 15) {
@@ -97,6 +96,9 @@ struct GameOverView: View {
             showTiles = true
             showCheckmark = true
             AudioManager.shared.playSound(.complete)
+        }
+        .onDisappear {
+            processor.perform(.startNewGame)
         }
     }
 }

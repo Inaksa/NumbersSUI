@@ -8,7 +8,7 @@ import SwiftUI
 
 struct BoardView: View {
     enum Configuration {
-        static let boardBackground = Color.orange
+        static let boardBackground = Color.brown
     }
     @EnvironmentObject var processor: Processor
 
@@ -46,9 +46,15 @@ struct BoardView: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: Styles.CornerRadius.medium)
+                .fill(Color.green)
+                .padding(8)
+        }
+        .background {
+            RoundedRectangle(cornerRadius: Styles.CornerRadius.medium)
                 .fill(Configuration.boardBackground)
         }
         .padding()
+
     }
 }
 
