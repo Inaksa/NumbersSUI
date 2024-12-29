@@ -7,6 +7,9 @@
 		<string>notalot35.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIImageName</key>
+		<string>splash</string>
+	</dict>
 </dict>
 </plist>
