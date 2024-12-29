@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		4242AF902D14C51900271DCE /* Numbers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Numbers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4242AF902D14C51900271DCE /* NumbersToo15.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NumbersToo15.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4242AFF92D14CE9800271DCE /* Exceptions for "Numbers" folder in "Numbers" target */ = {
+		4242AFF92D14CE9800271DCE /* Exceptions for "Numbers" folder in "NumbersToo15" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4242AF8F2D14C51900271DCE /* Numbers */;
+			target = 4242AF8F2D14C51900271DCE /* NumbersToo15 */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -24,7 +24,7 @@
 		4242AF922D14C51900271DCE /* Numbers */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4242AFF92D14CE9800271DCE /* Exceptions for "Numbers" folder in "Numbers" target */,
+				4242AFF92D14CE9800271DCE /* Exceptions for "Numbers" folder in "NumbersToo15" target */,
 			);
 			path = Numbers;
 			sourceTree = "<group>";
@@ -53,7 +53,7 @@
 		4242AF912D14C51900271DCE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4242AF902D14C51900271DCE /* Numbers.app */,
+				4242AF902D14C51900271DCE /* NumbersToo15.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,9 +61,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4242AF8F2D14C51900271DCE /* Numbers */ = {
+		4242AF8F2D14C51900271DCE /* NumbersToo15 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4242AF9E2D14C51A00271DCE /* Build configuration list for PBXNativeTarget "Numbers" */;
+			buildConfigurationList = 4242AF9E2D14C51A00271DCE /* Build configuration list for PBXNativeTarget "NumbersToo15" */;
 			buildPhases = (
 				4242AF8C2D14C51900271DCE /* Sources */,
 				4242AF8D2D14C51900271DCE /* Frameworks */,
@@ -76,11 +76,11 @@
 			fileSystemSynchronizedGroups = (
 				4242AF922D14C51900271DCE /* Numbers */,
 			);
-			name = Numbers;
+			name = NumbersToo15;
 			packageProductDependencies = (
 			);
 			productName = Numbers;
-			productReference = 4242AF902D14C51900271DCE /* Numbers.app */;
+			productReference = 4242AF902D14C51900271DCE /* NumbersToo15.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -112,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4242AF8F2D14C51900271DCE /* Numbers */,
+				4242AF8F2D14C51900271DCE /* NumbersToo15 */,
 			);
 		};
 /* End PBXProject section */
@@ -269,16 +269,19 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Numbers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NumbersToo15;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexgerman.Numbers;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexgerman.numbersSUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -302,16 +305,19 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Numbers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NumbersToo15;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.alexgerman.Numbers;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alexgerman.numbersSUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -335,7 +341,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4242AF9E2D14C51A00271DCE /* Build configuration list for PBXNativeTarget "Numbers" */ = {
+		4242AF9E2D14C51A00271DCE /* Build configuration list for PBXNativeTarget "NumbersToo15" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4242AF9F2D14C51A00271DCE /* Debug */,

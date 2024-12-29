@@ -11,17 +11,34 @@ struct GameView: View {
     @EnvironmentObject var coordinator: AppCoordinator
     @EnvironmentObject var processor: Processor
 
+    private let initialDate = Date()
+
     @State private var presentMenu: Bool = false
     var body: some View {
         NavigationStack {
             VStack {
                 ZStack {
-                    Color.white
-                        .frame(
-                            maxWidth: .infinity,
-                            maxHeight: .infinity
+                    TimelineView(.animation) { context in
+                        MeshGradient(
+                            width: 3,
+                            height: 3,
+                            points: [
+                                [0.0, 0.0], [0.5, 0.0], [1.0, 0.0],
+                                [0.0, 0.5],
+                                [0.5 + Float(sin(initialDate.timeIntervalSinceNow) / 4.0),
+                                 0.5 + Float(cos(initialDate.timeIntervalSinceNow) / 4.0)],
+                                [1.0, 0.5],
+                                [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
+                            ],
+                            colors: [
+                                .mint, .mint, .mint,
+                                .teal, .white, .green,
+                                .yellow, .orange, .orange
+                            ],
+                            colorSpace: .perceptual
                         )
                         .ignoresSafeArea()
+                    }
 
                     VStack(spacing: 20) {
                         HStack {
@@ -34,8 +51,14 @@ struct GameView: View {
                         .font(.custom(Styles.fontName, size: 60))
                         .padding(.horizontal)
                         .padding(.vertical, 2)
-                        .background { Color.green }
+                        .background { Color.blue }
+
                         BoardView(processor: _processor)
+
+                        Text("Numbers")
+                            .fontWeight(.black)
+                            .font(.custom(Styles.fontName, size: 60))
+                            .foregroundColor(Color.white)
                     }
                     .padding(.vertical)
                 }
@@ -54,6 +77,10 @@ struct GameView: View {
                     .buttonStyle(NormalButton())
                 }
                 .padding(.horizontal)
+            }
+            .overlay(alignment: .bottom) {
+                Text("Numbers 15 - Version \(Bundle.version())")
+                    .font(.custom(Styles.fontName, size: 15))
             }
         }
         .fullScreenCover(
