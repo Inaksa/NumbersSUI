@@ -73,6 +73,9 @@ struct GameOverView: View {
                     .animation(.easeInOut(duration: 0.5).delay(0.5), value: showCheckmark)
                 }
                 .padding(.horizontal)
+                .onAppear {
+                    AudioManager.shared.playSound(.highscore)
+                }
             }
 
             Button {
@@ -93,6 +96,7 @@ struct GameOverView: View {
         .onAppear {
             showTiles = true
             showCheckmark = true
+            AudioManager.shared.playSound(.complete)
         }
     }
 }

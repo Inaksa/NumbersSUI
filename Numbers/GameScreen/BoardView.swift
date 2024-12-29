@@ -31,6 +31,7 @@ struct BoardView: View {
                                     if tile != .empty {
                                         print("Did tap on tile: \(tile)")
                                         processor.perform(.tapOnTile(tile))
+                                        AudioManager.shared.playSound(.tap)
                                     }
                                 }
 

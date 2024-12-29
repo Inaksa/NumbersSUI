@@ -37,15 +37,22 @@ struct SettingsView: View {
     @EnvironmentObject var processor: Processor
     @EnvironmentObject var coordinator: AppCoordinator
 
-    @State private var musicVolume: Double = 0
-    @State private var soundVolume: Double = 0
+    @State private var musicVolume: Double = Double(AudioManager.shared.volumeBGM)
+    @State private var soundVolume: Double = Double(AudioManager.shared.volumeSFX)
 
     var body: some View {
         VStack {
             Text("Settings")
                 .font(Configuration.sliderFont)
             getVolumeSlider("Music Volume", value: $musicVolume)
+                .onChange(of: musicVolume) { _, newValue in
+                    processor.perform(.changeMusicVolume(newValue))
+                }
             getVolumeSlider("Sound Volume", value: $soundVolume)
+                .onChange(of: soundVolume) { _, newValue in
+                    processor.perform(.changeSoundVolume(newValue))
+                }
+
 
             Text("Game Difficulty")
                 .font(Configuration.difficultyFont)
@@ -53,7 +60,8 @@ struct SettingsView: View {
 
             ForEach(GameDifficulty.allCases) { difficulty in
                 GameDifficultyRow(difficulty: difficulty, currentDifficulty: processor.difficulty)
-                .onTapGesture { processor.difficulty = difficulty }
+//                .onTapGesture { processor.difficulty = difficulty }
+                .onTapGesture { processor.perform(.changeDifficulty(difficulty)) }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal)
                 .padding(.vertical, 2)

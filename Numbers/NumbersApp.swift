@@ -42,6 +42,8 @@ enum ProcessorAction {
     case startNewGame
     case navigateToSettings
     case tapOnTile(Tile)
+    case pause
+    case unpause
 }
 
 class Processor: ObservableObject {
@@ -61,14 +63,21 @@ class Processor: ObservableObject {
             self.board.shuffle()
         }
     }
-    private var musicVolume: Double = Configuration.initialMusicVolume
-    private var soundVolume: Double = Configuration.initialSoundVolume
+    private var musicVolume: Double = Double(AudioManager.shared.volumeBGM) {
+        didSet {
+            AudioManager.shared.setMusicVolume(Float(musicVolume))
+        }
+    }
+    private var soundVolume: Double = Double(AudioManager.shared.volumeSFX) {
+        didSet {
+            AudioManager.shared.setSFXVolume(Float(soundVolume))
+        }
+    }
 
     private var startTime: Date?
     private var timer: Timer!
     private var isPaused: Bool = false
     @Published var score: TimeInterval = 0
-
 
     @Published var board: Board = Board(
         rows: Configuration.initialDifficulty.gameSize.columns,
@@ -99,6 +108,10 @@ class Processor: ObservableObject {
             coordinator.currentRoute.append(.settings)
         case .tapOnTile:
             handleGameAction(action)
+        case .pause:
+            isPaused = true
+        case .unpause:
+            isPaused = false
         }
     }
 
@@ -106,7 +119,7 @@ class Processor: ObservableObject {
     private func update() {
         guard !isPaused else { return }
         let elapsedTime = Date().timeIntervalSince(startTime!)
-        score = elapsedTime
+        score = Double(Int(elapsedTime) * 100) / Double(100)
         print("Currscore: \(score)")
     }
 
@@ -114,6 +127,7 @@ class Processor: ObservableObject {
         switch settingsAction {
         case .changeDifficulty(let gameDifficulty):
             self.difficulty = gameDifficulty
+            self.perform(.startNewGame)
         case .changeMusicVolume(let volume):
             self.musicVolume = volume
         case .changeSoundVolume(let volume):
@@ -135,6 +149,7 @@ class Processor: ObservableObject {
                     )
 
                     if self.board.isSolved() {
+                        self.perform(.pause)
                         self.coordinator.currentRoute.append(.gameOver(.win))
                     }
                 }

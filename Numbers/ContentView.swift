@@ -48,6 +48,8 @@ struct ContentView: View {
                 coordinator.currentRoute.last == .settings
             }, set: { newValue in
                 coordinator.dismiss()
+                processor.perform(.unpause)
+
             }),
             content: {
                 SettingsView()
@@ -87,6 +89,9 @@ struct ContentView: View {
             }
         })
         .padding()
+        .onAppear() {
+            AudioManager.shared.startMusic()
+        }
     }
 }
 
